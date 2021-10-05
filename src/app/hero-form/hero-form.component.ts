@@ -18,4 +18,11 @@ export class HeroFormComponent {
 
   onSubmit() { this.submitted = true; }
 
+  myHero= new Hero(42,'Sett',this.powers[2],'Coolest guy');
+  //console.log(`My hero is called ${myHero.name`); // "My hero is called SkyDog"
+
+  newHero(){
+    this.model= new Hero(42, '','');
+  }
+
 }

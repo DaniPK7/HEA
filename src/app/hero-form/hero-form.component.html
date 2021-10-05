@@ -1,11 +1,80 @@
-<h2>Hero Form</h2>
-<div>
-    <label for="Name">Name</label>
-    <input type="text">
+<div [hidden]="submitted">
+    <h1>Hero Form</h1>
+    <!--{{ myHero | json }}-->
+    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+        <div class= "form-group">
+            <label for="name">Hero Name</label>
+            <input type="text" 
+            class="form-control
+                    ng-untouched 
+                    ng-pristine 
+                    ng-valid" 
+            id="name"
+            required
+            [(ngModel)]="myHero.name" 
+            name="name"
+            #name="ngModel">
+            TODO: remove this: {{myHero.name}}
+        </div>
+        <div [hidden]="name.valid || name.pristine"
+            class="alert alert-danger">Name required
+        </div>
+        <div [hidden]="name.pristine || !name.valid"
+            class="alert alert-danger">Name changed
+        </div>
+
+        <div class="form-group">
+            <label for="alterEgo">Alter Ego</label>
+            <input type="text"  class="form-control" 
+                    id="alterEgo"
+                    optional
+                    [(ngModel)]="myHero.alterEgo" 
+                    name="alterEgo"
+                    #name="ngModel">
+          </div>
+
+        <div class="form-group">
+            <label for="power">Hero Power</label>
+            <select class="form-control" id="power" 
+                required
+                [(ngModel)]="myHero.power" name="power">
+                <option *ngFor="let pow of powers"
+                        [value]="pow">{{pow}}
+                </option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-default" 
+                (click)="newHero();
+                heroForm.reset()">New Hero
+        </button>
+        <button type="submit" class="btn btn-success" 
+                [disabled]="!heroForm.form.valid">Submit
+    </button>
+    </form>
 </div>
-<div class="form-group">
-    <label for="power">Hero Power</label>
-    <select class="form-control" id="power" required>
-        <option *ngFor="let pow of powers" [value]="pow">{{pow}}</option>
-    </select>
-</div>
+<!-- Una vez pulsado el boton Submit, mostrar esto: -->
+<div [hidden]="!submitted" class="pr">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Name:</div>
+      <div class="col-xs-9">{{ myHero.name }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Alter Ego:</div>
+      <div [hidden]= "!myHero.alterEgo" class="col-xs-9" >
+          {{ myHero.alterEgo }}
+      </div>
+      <div [hidden]= "myHero.alterEgo" class="col-xs-9" >
+        ...
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Power:</div>
+      <div class="col-xs-9">{{ myHero.power }}</div>
+    </div>
+    <br>
+    <button class="btn btn-primary"
+            (click)="submitted=false">Edit
+    </button>
+  </div>
+
